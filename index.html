@@ -41,7 +41,8 @@
       btn.disabled = true; status.textContent = 'Scoring...';
 
       try {
-        const res = await fetch('/api/grade', {
+        const API_BASE = 'https://erater-project.fly.dev';  // your backend endpoint
+        const res = await fetch(`${API_BASE}/api/grade`, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ essay })
