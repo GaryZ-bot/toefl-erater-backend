@@ -47,8 +47,18 @@
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ essay })
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Failed');
+
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error(`Backend returned non-JSON (${res.status}): ${text.slice(0,200)}`);
+        }
+
+        if (!res.ok) {
+          throw new Error(data?.error || `Request failed: ${res.status}`);
+        }
 
         const dims = ['task_response','organization','language_use','development','mechanics'];
         const items = dims.map(k => `<div>${k.replace('_',' ')}:</div><div><strong>${data[k]}</strong>/5</div>`).join('');
