@@ -1,0 +1,6 @@
+
+# ignore frontend artifacts
+*.html
+*.png
+*.jpg
+frontend/
