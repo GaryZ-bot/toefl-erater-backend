@@ -72,9 +72,14 @@ def ascii_safe_preview(s: str, limit: int = 120) -> str:
     preview = s[:limit] + ("..." if len(s) > limit else "")
     return preview.encode("ascii", "backslashreplace").decode("ascii")
 
+
 @app.get("/")
-def index():
-    return send_from_directory(".", "index.html")
+def home():
+    return "TOEFL E-rater backend is running. Use POST /api/grade.", 200
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}, 200
 
 @app.post("/api/grade")
 def grade():
