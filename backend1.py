@@ -4,7 +4,8 @@ import sys
 import json
 import re
 import logging
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
+from flask_cors import CORS
 from openai import OpenAI
 
 # ---------------- UTF-8 & logging hardening ----------------
@@ -53,8 +54,8 @@ if not api_key:
 client = OpenAI(api_key=api_key)
 
 # ---------------- Flask app ----------------
-app = Flask(__name__, static_folder=".", static_url_path="")
-app.config["JSON_AS_ASCII"] = False
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": ["https://toefl-erater-frontend.pages.dev"]}})
 
 RUBRIC = (
     "You are a strict TOEFL Writing grader.\n"
